@@ -1,0 +1,122 @@
+CREATE TABLE Customer (
+    CustomerID integer NOT NULL PRIMARY KEY,
+    FirstName varchar(50) NOT NULL,
+    LastName varchar(50) NOT NULL,
+    Address varchar(50) NOT NULL,
+    PhoneNumber varchar(13) NOT NULL,
+    Email varchar(50) NOT NULL,
+    StartDate integer NOT NULL,
+    Warehouse varchar(50) NOT NULL,
+    Active integer NOT NULL
+);
+
+CREATE TABLE Payment (
+    PaymentID integer NOT NULL PRIMARY KEY,
+    Amount integer NOT NULL,
+    Type integer NOT NULL,
+    Date integer NOT NULL,
+    RentalID integer NOT NULL,
+    FOREIGN KEY(RentalID) REFERENCES RentalOrder(RentalID)
+);
+
+CREATE TABLE RentalOrder (
+    RentalID integer NOT NULL PRIMARY KEY,
+    CustomerID integer NOT NULL,
+    CheckoutDate integer NOT NULL,
+    DueDate integer NOT NULL,
+    Returned integer NOT NULL,
+    RentalFees integer NOT NULL,
+    Description varchar(100) NOT NULL,
+    Address varchar(50) NOT NULL,
+    FOREIGN KEY(CustomerID) REFERENCES Customer(CustomerID)
+);
+
+CREATE TABLE Delivery (
+    DeliveryID integer NOT NULL PRIMARY KEY,
+    DroneSerial varchar(50) NOT NULL,
+    RentalID integer NOT NULL,
+    FOREIGN KEY(DroneSerial) REFERENCES Drone(SerialNumber),
+    FOREIGN KEY(RentalID) REFERENCES RentalOrder(RentalID)
+);
+
+CREATE TABLE Allocation (
+    AllocationID integer NOT NULL PRIMARY KEY,
+    EquipmentSerial varchar(50) NOT NULL,
+    RentalID integer NOT NULL,
+    FOREIGN KEY(EquipmentSerial) REFERENCES Equipment(SerialNumber),
+    FOREIGN KEY(RentalID) REFERENCES RentalOrder(RentalID)
+);
+
+CREATE TABLE Inventory (
+    SerialNumber varchar(50) NOT NULL PRIMARY KEY,
+    Model varchar(50) NOT NULL,
+    Year integer NOT NULL,
+    Status varchar(50) NOT NULL,
+    WarrantyExpirationDate integer NOT NULL,
+    Manufacturer varchar(50) NOT NULL,
+    Warehouse varchar(50) NOT NULL,
+    DroneEquipment integer NOT NULL,
+    PurchaseOrder integer NOT NULL,
+    Location varchar(50) NOT NULL,
+    FOREIGN KEY(Warehouse) REFERENCES Warehouse(Address)
+);
+
+CREATE TABLE Drone (
+    SerialNumber varchar(50) NOT NULL PRIMARY KEY,
+    Name varchar(50) NOT NULL,
+    WeightCap integer NOT NULL,
+    MaxSpeed integer NOT NULL,
+    MaxRange integer NOT NULL,
+    FOREIGN KEY(SerialNumber) REFERENCES Inventory(SerialNumber)
+);
+
+CREATE TABLE Equipment (
+    SerialNumber varchar(50) NOT NULL PRIMARY KEY,
+    Weight integer NOT NULL,
+    Description varchar(100) NOT NULL,
+    Type integer NOT NULL,
+    Size integer NOT NULL,
+    FOREIGN KEY(SerialNumber) REFERENCES Inventory(SerialNumber)
+);
+
+CREATE TABLE Warehouse (
+    Address varchar(50) NOT NULL PRIMARY KEY,
+    PhoneNumber varchar(13) NOT NULL,
+    Manager varchar(100) NOT NULL,
+    StorageCapacity integer NOT NULL,
+    DroneCapacity integer NOT NULL
+);
+
+CREATE TABLE PurchaseOrder (
+    SupplierID integer NOT NULL,
+    OrderNumber integer NOT NULL PRIMARY KEY,
+    Type integer NOT NULL,
+    Quantity integer NOT NULL,
+    Value integer NOT NULL,
+    ETA integer NOT NULL,
+    RealArrivalDate integer NOT NULL,
+    DateMade integer NOT NULL,
+    FOREIGN KEY(SupplierID) REFERENCES Supplier(SupplierID)
+);
+
+CREATE TABLE Supplier (
+    SupplierID integer NOT NULL PRIMARY KEY,
+    Name varchar(50),
+    Address varchar(50)  
+);
+
+CREATE TABLE Distance (
+    Address varchar(50) NOT NULL,
+    Warehouse varchar(50) NOT NULL,
+    WarehouseDistance integer NOT NULL,
+    PRIMARY KEY(Address, Warehouse),
+    FOREIGN KEY(Address) REFERENCES Customer(Address),
+    FOREIGN KEY(Warehouse) REFERENCES Warehouse(Address)
+);
+
+CREATE TABLE Review (
+    RentalID integer NOT NULL,
+    EquipmentSerial integer NOT NULL,
+    Score varchar(50) NOT NULL,
+    PRIMARY KEY(RentalID, EquipmentSerial)
+);

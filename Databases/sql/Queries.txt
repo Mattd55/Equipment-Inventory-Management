@@ -1,0 +1,23 @@
+ -- Find the type of all Equipment by MANUFACTURER released after YEAR (you choose how to designate the manufacturer, year)
+ SELECT Type FROM (INVENTORY NATURAL JOIN EQUIPMENT) WHERE Manufacturer="ACME" AND Year > 2019;
+ 
+-- Give all the equipment and the date(s) of their checkout from a single MEMBER (you choose how to designate the member).
+SELECT EquipmentSerial, CheckoutDate FROM (Customer NATURAL JOIN RentalOrder NATURAL JOIN Allocation) WHERE FirstName="Bilbo" AND LastName="Baggins";
+
+-- List all drones by weight capacity and its unique identifiers with 2 or less units held by a WAREHOUSE (you choose how to designate the warehouse).
+SELECT count(Model) FROM (Drone NATURAL JOIN Inventory) WHERE Warehouse="100 Street Road, Nowheresville, Ohio" AND count(Model) > 2 GROUP BY Model;
+
+-- Give all the members that live more than 15 miles away from the warehouse who checked out equipment delivered by a particular DRONE (you choose how to designate the drone), as well as the equipment they checked out
+SELECT FirstName, LastName, Eq FROM (Customer NATURAL JOIN Distance NATURAL JOIN RentalOrder NATURAL JOIN Delivery NATURAL JOIN Allocation) WHERE WarehouseDistance > 15 AND DroneSerial="AAAAAAAAAAA";
+
+-- Find the total number of unique drones that have picked up items checked out on certain Address (you choose how to designate the member address)
+SELECT count(distinct(DroneSerial)) FROM Customer NATURAL JOIN Delivery WHERE Address="100001 Road Street, Megapolis City, Ohio" GROUP BY Address;
+
+-- Find the member who has checked out the most equipment and the total number of items they have checked out
+SELECT FirstName, LastName, count(EquipmentSerial) FROM Customer NATURAL JOIN RentalOrder NATURAL JOIN Allocation GROUP BY CustomerID ORDER BY count(EquipmentSerial) DESC LIMIT 1;
+
+-- Find the total quantity of Equipment purchases in the last 6 months by equipment type, provide the total dollar amount for each type and the average weight. 
+SELECT count(SerialNumber), sum(Value), avg(Weight) FROM PurchaseOrder NATURAL JOIN (Inventory NATURAL JOIN Equipment) WHERE DateMade < ??? GROUP BY Type;
+
+-- Find the member who has checked out the most equipment and the total number of items they have checked out
+SELECT FirstName, LastName, count(SerialNumber) FROM Customer NATURAL JOIN RentalOrder NATURAL JOIN Allocation GROUP BY CustomerID ORDER BY countSerialNumber DESC LIMIT 1;
