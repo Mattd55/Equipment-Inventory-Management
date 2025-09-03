@@ -133,8 +133,8 @@ The system includes sophisticated SQL queries for various operations:
 - **Optimized Indexing**: Strategic indexes on CustomerID, RentalID, and EquipmentSerial
 - **Database Views**: Pre-computed views for frequent analytical queries
 - **Transaction Safety**: ACID compliance for all multi-table operations
-
-```## Project Structure
+```
+## Project Structure
 ├── src/
 │   ├── main/
 │   │   ├── java/           # Java application code
