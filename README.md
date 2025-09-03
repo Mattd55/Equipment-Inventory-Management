@@ -134,7 +134,7 @@ The system includes sophisticated SQL queries for various operations:
 - **Database Views**: Pre-computed views for frequent analytical queries
 - **Transaction Safety**: ACID compliance for all multi-table operations
 
-## Project Structure
+```## Project Structure
 ├── src/
 │   ├── main/
 │   │   ├── java/           # Java application code
@@ -148,7 +148,7 @@ The system includes sophisticated SQL queries for various operations:
 ├── docs/
 │   └── final-report.pdf    # Comprehensive project documentation
 └── README.md
-
+```
 ## Contributors
 
 **Team Members** (Ohio State University - CSE 3242):
